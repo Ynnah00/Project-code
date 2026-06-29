@@ -1,8 +1,10 @@
-// Online C compiler to run C program online
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define MAX_ITEMS 50
+#define LOST_FILE "lost.txt"
+#define FOUND_FILE "found.txt"
 
 typedef struct {
     int id;
@@ -27,7 +29,86 @@ void readLine(char *buffer, int size) {
     }
 }
 
-void addItem(Item items[], int *count, const char *kind) {
+int caseInsensitiveEquals(const char *a, const char *b) {
+    while (*a && *b) {
+        char ca = (*a >= 'A' && *a <= 'Z') ? *a + 32 : *a;
+        char cb = (*b >= 'A' && *b <= 'Z') ? *b + 32 : *b;
+        if (ca != cb) return 0;
+        a++;
+        b++;
+    }
+    return *a == '\0' && *b == '\0';
+}
+
+void saveItem(const Item *item, const char *filename) {
+    FILE *fp = fopen(filename, "a");
+    if (fp == NULL) {
+        printf("Error: could not save to file.\n");
+        return;
+    }
+    fprintf(fp, "%d|%s|%s|%s|%s\n", item->id, item->type, item->name, item->place, item->date);
+    fclose(fp);
+}
+
+void loadItems(Item items[], int *count, const char *filename) {
+    FILE *fp = fopen(filename, "r");
+    if (fp == NULL) {
+        return;
+    }
+
+    char line[200];
+    while (fgets(line, sizeof(line), fp) != NULL && *count < MAX_ITEMS) {
+        Item item;
+        char *token;
+
+        token = strtok(line, "|");
+        if (token) item.id = atoi(token);
+
+        token = strtok(NULL, "|");
+        if (token) strcpy(item.type, token);
+
+        token = strtok(NULL, "|");
+        if (token) strcpy(item.name, token);
+
+        token = strtok(NULL, "|");
+        if (token) strcpy(item.place, token);
+
+        token = strtok(NULL, "|");
+        if (token) {
+            size_t len = strlen(token);
+            if (len && token[len - 1] == '\n') token[len - 1] = '\0';
+            strcpy(item.date, token);
+        }
+
+        items[*count] = item;
+        (*count)++;
+
+        if (item.id >= nextId) {
+            nextId = item.id + 1;
+        }
+    }
+
+    fclose(fp);
+}
+
+void checkMatches(const Item *newFound) {
+    int matches = 0;
+    printf("\nChecking for possible matches...\n");
+    for (int i = 0; i < lostCount; i++) {
+        if (caseInsensitiveEquals(newFound->name, lostItems[i].name) ||
+            caseInsensitiveEquals(newFound->place, lostItems[i].place)) {
+            printf("Possible match! Found item '%s' may match Lost ID %d ('%s' at %s on %s)\n",
+                   newFound->name, lostItems[i].id, lostItems[i].name, lostItems[i].place, lostItems[i].date);
+            matches++;
+        }
+    }
+    if (matches == 0) {
+        printf("No possible matches found yet.\n");
+    }
+    printf("\n");
+}
+
+void addItem(Item items[], int *count, const char *kind, const char *filename) {
     if (*count >= MAX_ITEMS) {
         printf("%s list is full.\n", kind);
         return;
@@ -43,7 +124,12 @@ void addItem(Item items[], int *count, const char *kind) {
     readLine(item.date, sizeof(item.date));
     items[*count] = item;
     (*count)++;
+    saveItem(&item, filename);
     printf("%s record added with ID %d.\n\n", kind, item.id);
+
+    if (strcmp(kind, "Found") == 0) {
+        checkMatches(&item);
+    }
 }
 
 void listItems(Item items[], int count, const char *title) {
@@ -87,9 +173,11 @@ int main(void) {
     int option;
     char keyword[50];
 
+    loadItems(lostItems, &lostCount, LOST_FILE);
+    loadItems(foundItems, &foundCount, FOUND_FILE);
+
     printf("Lost and Found System\n");
     printf("=======================\n\n");
-
     while (1) {
         printf("1. Add lost item\n");
         printf("2. Add found item\n");
@@ -98,20 +186,18 @@ int main(void) {
         printf("5. Search items\n");
         printf("6. Exit\n");
         printf("Choose an option: ");
-
         if (scanf("%d", &option) != 1) {
             printf("Invalid input. Please enter a number.\n");
             while (getchar() != '\n');
             continue;
         }
         while (getchar() != '\n');
-
         switch (option) {
             case 1:
-                addItem(lostItems, &lostCount, "Lost");
+                addItem(lostItems, &lostCount, "Lost", LOST_FILE);
                 break;
             case 2:
-                addItem(foundItems, &foundCount, "Found");
+                addItem(foundItems, &foundCount, "Found", FOUND_FILE);
                 break;
             case 3:
                 listItems(lostItems, lostCount, "Lost Items");
