@@ -2,11 +2,11 @@
 
 A full-stack web application to help people report and find lost items. Built with Node.js, Express, SQLite, and featuring intelligent fuzzy matching algorithms.
 
-**About**
+### 📖 About
 
-The Lost and Found System is designed to bridge the gap between people who have lost valuable items and those who have found them. This platform uses intelligent fuzzy matching algorithms to automa[...]
+The Lost and Found System is designed to bridge the gap between people who have lost valuable items and those who have found them. This platform uses intelligent fuzzy matching algorithms to automatically connect lost and found items.
 
-Whether you've lost your keys, wallet, phone, or any other item, or you've found something and want to help return it to its owner, this system makes it easy to connect. With smart categorization, [...]
+Whether you've lost your keys, wallet, phone, or any other item, or you've found something and want to help return it to its owner, this system makes it easy to connect. With smart categorization, search capabilities, and intelligent matching, finding what's lost has never been easier.
 
 **Key Mission:** To help reunite lost items with their owners through technology and community assistance.
 
