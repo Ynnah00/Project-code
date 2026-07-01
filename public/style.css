@@ -6,12 +6,12 @@
 }
 
 :root {
-    --primary-color: #3498db;
-    --success-color: #2ecc71;
-    --danger-color: #e74c3c;
-    --warning-color: #f39c12;
-    --dark-color: #2c3e50;
-    --light-color: #ecf0f1;
+    --primary-color: #6366f1;
+    --success-color: #10b981;
+    --danger-color: #ef4444;
+    --warning-color: #f59e0b;
+    --dark-color: #1f2937;
+    --light-color: #f3f4f6;
     --border-color: #bdc3c7;
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     --transition: all 0.3s ease;
@@ -19,7 +19,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
     color: var(--dark-color);
     min-height: 100vh;
     padding: 20px;
@@ -36,7 +36,7 @@ body {
 
 /* Header */
 .header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
     color: white;
     padding: 30px;
     text-align: center;
@@ -133,7 +133,7 @@ body {
 }
 
 .stat-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
     color: white;
     padding: 20px;
     border-radius: 10px;
@@ -200,7 +200,7 @@ body {
 .form-group textarea:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
 
 /* Buttons */
@@ -220,7 +220,7 @@ body {
 }
 
 .btn-primary:hover {
-    background: #2980b9;
+    background: #4f46e5;
     transform: translateY(-2px);
     box-shadow: var(--shadow);
 }
@@ -231,7 +231,7 @@ body {
 }
 
 .btn-success:hover {
-    background: #27ae60;
+    background: #059669;
     transform: translateY(-2px);
     box-shadow: var(--shadow);
 }
@@ -242,7 +242,7 @@ body {
 }
 
 .btn-danger:hover {
-    background: #c0392b;
+    background: #dc2626;
 }
 
 /* Filter Buttons */
@@ -437,7 +437,7 @@ body {
 }
 
 .stat-box {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
     color: white;
     padding: 25px;
     border-radius: 10px;
